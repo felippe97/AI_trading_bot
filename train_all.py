@@ -1,6 +1,9 @@
 # train_all.py
-import sys
-import os
+import os, sys
+# přidejte kořenovou složku (kde je train_all.py) do PYTHONPATH
+project_root = os.path.dirname(os.path.abspath(__file__))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 from pathlib import Path
 from training.advanced_models import AdvancedModelTrainer
 from config import SYMBOLS, TIMEFRAME

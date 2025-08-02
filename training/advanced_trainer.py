@@ -1,4 +1,12 @@
 # training/advanced_models.py
+import sys
+import os
+# Get the absolute path of the current script
+current_script_path = os.path.abspath(__file__)
+# Get the root directory (two levels up from the script)
+project_root = os.path.dirname(os.path.dirname(current_script_path))
+# Add root to Python path
+sys.path.insert(0, project_root)
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -15,13 +23,6 @@ from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 import joblib
-import sys
-import os
-from datetime import datetime  # Added datetime import
-
-# Absolute path to the project
-project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, project_path)
 
 # Import configuration
 from config import get_symbol_params, GENERAL_MODEL_PATH, ONLINE_CALIBRATION
