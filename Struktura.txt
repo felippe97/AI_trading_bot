@@ -1,0 +1,34 @@
+aibot/
+├── __init__.py
+├── data/
+│   └── BTCUSD_1h.csv
+│   └── latest/
+│       └── BTCUSD_1h.csv
+├── data_collection/
+│   ├── __init__.py
+│   ├── mt5_data_loader.py
+│   └── realtime_feed.py
+├── models/
+│   └── BTCUSD/
+│       └── 1h/
+│           ├── hybrid_best.h5
+│           ├── hybrid_final.h5
+│           └── hybrid_scalers.pkl
+├── execution/
+        risk_manager.py
+        mt5_connector.py
+├── feature_engineering/
+│   ├── __init__.py
+│   ├── intraday_features.py
+│   └── volatility_metrics.py
+│     └── advanced_features.py
+├── ... # ostatné priečinky
+├── training/
+│       └── advanced_models.py
+│        └──    symbol_trainer.py
+│          └──  online_calibration.py
+│           └── hyperparameter_tuner.py
+├── monitoring/
+           drawdown_alert.py
+          performance_dashboard.py
+└── config.py

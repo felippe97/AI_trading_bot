@@ -1,0 +1,29 @@
+# Základné knižnice
+tensorflow==2.15.0
+pandas==2.1.4
+numpy==1.26.3
+scikit-learn==1.3.2
+
+# MetaTrader 5 integracia - nainštaluje najnovšiu verziu
+MetaTrader5>=5.0.44
+
+# Technická analýza
+TA-Lib==0.4.24
+
+# Komunikácia a sieťové služby
+pyzmq==25.1.2
+requests==2.31.0
+fastapi==0.109.0
+uvicorn==0.25.0
+
+# Dashboard a vizualizácia
+dash==2.14.2
+plotly==5.18.0
+dash-bootstrap-components==1.6.0
+
+# Ďalšie pomocné knižnice
+python-dateutil==2.8.2
+pytz==2023.3.post1
+tqdm==4.66.1
+joblib==1.3.2
+scipy==1.11.4
