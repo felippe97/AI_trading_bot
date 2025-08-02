@@ -1,0 +1,74 @@
+2025-08-02 20:31:53,826 - __main__ - WARNING - Crypto response format changed: {
+  "Response": "Success",
+  "Message": "",
+  "HasWarning": false,
+  "Type": 100,
+  "RateLimit": {},
+  "Data": {
+    "id": 1182,
+    "time": 1754006400,
+    "symbol": "BTC",
+    "partner_symbol": "BTC",
+    "inOutVar": {
+      "category": "on_chain",
+      "sentiment": "bearish",
+      "value": -0.001682706974533972,
+      "score": 0.24316071626133834,
+      "score_threshold_bearish": 0.25,
+      "score_threshold_bullish": 0.75
+    },
+    "addressesNetGrowth": {
+      "category": "on_chain",
+      "sentiment": "bearish",
+      "value": 0.0015721868138185524,
+      "score": 0.19992059770140808,
+      "score_threshold_bearish": 0.25,
+      "score_threshold_bullish": 0.75
+    },
+    "concentrationVar": {
+      "category": "on_chain",
+      "sentiment": "bullish",
+      "value": 0.010904633501788165,
+      "score": 1,
+      "score_threshold_bearish": 0.25,
+      "score_threshold_bullish": 0.75
+    },
+    "largetxsVar": {
+      "category": "on_chain",
+      "sentiment": "bearish",
+      "value": -0.011835508190280352,
+      "score": 0,
+      "score_threshold_bearish": 0.25,
+      "score_threshold_bullish": 0.75
+    }
+  }
+}
+2025-08-02 20:31:54,258 - __main__ - ERROR - Invalid JSON response: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; char
+2025-08-02 20:31:54,505 - __main__ - ERROR - Finnhub API error: 403 - {"error":"You don't have access to this resource."}
+2025-08-02 21:07:40,850 - __main__ - INFO - Using parameters for BTCUSD_ecn: {'lookback_window': 90, 'threshold': 0.002, 'lstm_units': [128, 96], 'risk_multiplier': 1.5, 'model_type': 'hybrid'}
+2025-08-02 21:07:40,986 - feature_engineering.macro_data_manager - INFO - Downloading historical macro data...
+2025-08-02 21:07:41,473 - feature_engineering.macro_data_manager - ERROR - Error downloading BTC dominance: 404 Client Error: Not Found for url: https://api.alternative.me/v2/dominance/?since=2010-01-01&limit=0
+2025-08-02 21:07:43,276 - feature_engineering.macro_data_manager - ERROR - Error downloading VIX: Missing column provided to 'parse_dates': 'DATE'
+2025-08-02 21:07:44,272 - feature_engineering.macro_data_manager - ERROR - Error downloading oil inventory: 403 Client Error: Forbidden for url: https://api.eia.gov/v2/petroleum/stoc/wstk/data/?frequency=daily&data%5B0%5D=value&start=2000-01-01&end=2025-08-02&api_key=YOUR_DEFAULT_API_KEY
+2025-08-02 21:07:44,285 - feature_engineering.macro_data_manager - INFO - Historical macro data download complete
+2025-08-02 21:07:44,286 - __main__ - INFO - Loading data for BTCUSD_ecn from C:\Users\filip\OneDrive\Poèítaè\AI_trading_bot\data/BTCUSD_ecn_5min.csv
+2025-08-02 21:07:44,286 - __main__ - ERROR - Data file not found: C:\Users\filip\OneDrive\Poèítaè\AI_trading_bot\data/BTCUSD_ecn_5min.csv
+2025-08-02 21:08:39,040 - __main__ - INFO - Using parameters for BTCUSD_ecn: {'lookback_window': 90, 'threshold': 0.002, 'lstm_units': [128, 96], 'risk_multiplier': 1.5, 'model_type': 'hybrid'}
+2025-08-02 21:08:39,162 - feature_engineering.macro_data_manager - INFO - Downloading historical macro data...
+2025-08-02 21:08:39,614 - feature_engineering.macro_data_manager - ERROR - Error downloading BTC dominance: 404 Client Error: Not Found for url: https://api.alternative.me/v2/dominance/?since=2010-01-01&limit=0
+2025-08-02 21:08:39,810 - feature_engineering.macro_data_manager - ERROR - Error downloading VIX: Missing column provided to 'parse_dates': 'DATE'
+2025-08-02 21:08:40,640 - feature_engineering.macro_data_manager - ERROR - Error downloading oil inventory: 403 Client Error: Forbidden for url: https://api.eia.gov/v2/petroleum/stoc/wstk/data/?frequency=daily&data%5B0%5D=value&start=2000-01-01&end=2025-08-02&api_key=YOUR_DEFAULT_API_KEY
+2025-08-02 21:08:40,653 - feature_engineering.macro_data_manager - INFO - Historical macro data download complete
+2025-08-02 21:08:40,654 - __main__ - INFO - Loading data for BTCUSD_ecn from C:\Users\filip\OneDrive\Poèítaè\AI_trading_bot\data/BTCUSD_ecn_5min.csv
+2025-08-02 21:08:40,654 - __main__ - ERROR - Data file not found: C:\Users\filip\OneDrive\Poèítaè\AI_trading_bot\data/BTCUSD_ecn_5min.csv
+2025-08-02 21:42:15,480 - __main__ - INFO - Using parameters for BTCUSD_ecn: {'lookback_window': 90, 'threshold': 0.002, 'lstm_units': [128, 96], 'risk_multiplier': 1.5, 'model_type': 'hybrid'}
+2025-08-02 21:42:15,601 - feature_engineering.macro_data_manager - INFO - Downloading historical macro data...
+2025-08-02 21:42:16,103 - feature_engineering.macro_data_manager - ERROR - Error downloading BTC dominance: 404 Client Error: Not Found for url: https://api.alternative.me/v2/dominance/?since=2010-01-01&limit=0
+2025-08-02 21:42:18,558 - feature_engineering.macro_data_manager - ERROR - Error downloading VIX: Missing column provided to 'parse_dates': 'DATE'
+2025-08-02 21:42:19,444 - feature_engineering.macro_data_manager - ERROR - Error downloading oil inventory: 403 Client Error: Forbidden for url: https://api.eia.gov/v2/petroleum/stoc/wstk/data/?frequency=daily&data%5B0%5D=value&start=2000-01-01&end=2025-08-02&api_key=YOUR_DEFAULT_API_KEY
+2025-08-02 21:42:19,458 - feature_engineering.macro_data_manager - INFO - Historical macro data download complete
+2025-08-02 21:42:19,458 - __main__ - INFO - Loading data for BTCUSD_ecn from C:\Users\filip\OneDrive\Poèítaè\AI_trading_bot\data/BTCUSD_ecn_5min.csv
+2025-08-02 21:42:19,458 - __main__ - ERROR - Data file not found: C:\Users\filip\OneDrive\Poèítaè\AI_trading_bot\data/BTCUSD_ecn_5min.csv

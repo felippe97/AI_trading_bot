@@ -1,4 +1,17 @@
 # config.py
+import os
+
+# Get the absolute path of the current script
+current_script_path = os.path.abspath(__file__)
+# Get the root directory (two levels up from the script)
+project_root = os.path.dirname(os.path.dirname(current_script_path))
+
+# Free API keys (register for free keys at the respective services)
+ALPHA_VANTAGE_API = 'IYO3TJ56Y7DT7L6U'  # Get free key: https://www.alphavantage.co/support/#api-key
+# Pridajte API kľúče pre sentiment služby
+FINNHUB_API_KEY = 'd2751v1r01qloarhhu10d2751v1r01qloarhhu1g'  # Bezplatný kľúč na https://finnhub.io
+CRYPTOCOMPARE_API_KEY = 'ccab0a72198d4441297c4dda9a9a60f907f14ec97492fd4a7db9246ae7b7ede4'  # Registrácia na https://min-api.cryptocompare.com
+NEWSAPI_API_KEY = '2484676111654d36992b3f9511dad45a'  # Bezplatný kľúč na https://newsapi.org
 SYMBOLS = [
     'BTCUSD_ecn', 'DAX_ecn', 'EURUSD_ecn', 
     'NSDQ_ecn', 'SP_ecn', 'USOIL.fut', 'XAUUSD_ecn'
