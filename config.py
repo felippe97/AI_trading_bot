@@ -23,6 +23,16 @@ MAX_DAILY_DRAWDOWN = 5.0  # %
 RISK_PER_TRADE = 1.0  # % z účtu
 TP_SL_RATIO = 1.5  # Pomer TP/SL
 
+ASSET_TYPES = {
+    'BTCUSD_ecn': 'crypto',
+    'DAX_ecn': 'stock',
+    'EURUSD_ecn': 'forex',
+    'NSDQ_ecn': 'stock',
+    'SP_ecn': 'stock',
+    'USOIL.fut': 'commodity',
+    'XAUUSD_ecn': 'commodity'
+}
+
 # Základné parametre modelu
 MODEL_PARAMS = {
     'epochs': 100,

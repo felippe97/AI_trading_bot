@@ -109,35 +109,26 @@ class MacroDataManager:
         return df.set_index('Date')['VIX']
     
     # Oil Inventory - using EIA API
-    def download_oil_inventory(self, start_date="2000-01-01"):
-        """Download historical oil inventory data"""
+    def download_oil_inventory(self):
+        """Stiahni dáta o zásobách ropy"""
         try:
-            url = f"https://api.eia.gov/v2/petroleum/stoc/wstk/data/?frequency=daily&data[0]=value&start={start_date}&end={datetime.now().strftime('%Y-%m-%d')}&api_key={self.api_key}"
-            response = requests.get(url, timeout=15)
+            # Nahraďte YOUR_API_KEY skutočným kľúčom
+            api_key = "YOUR_API_KEY"
+            if api_key == "YOUR_API_KEY":
+                logger.warning("Using default API key for oil inventory, which may not work")
+                
+            url = f"https://api.eia.gov/v2/petroleum/stoc/wstk/data/?frequency=daily&data[0]=value&start=2000-01-01&end={datetime.now().strftime('%Y-%m-%d')}&api_key={api_key}"
+            response = requests.get(url)
             response.raise_for_status()
-            data = response.json()['response']['data']
-            df = pd.DataFrame(data)[['period', 'value']]
-            df.columns = ['Date', 'oil_inventory']
-            df['Date'] = pd.to_datetime(df['Date'])
-            df.to_csv(f"{self.data_dir}/oil_inventory.csv", index=False)
-        except Exception as e:
-            self.logger.error(f"Error downloading oil inventory: {str(e)}")
-    
-    def update_oil_inventory(self):
-        """Update oil inventory data"""
-        try:
-            file_path = f"{self.data_dir}/oil_inventory.csv"
-            if os.path.exists(file_path):
-                df = pd.read_csv(file_path, parse_dates=['Date'])
-                last_date = df['Date'].max()
-            else:
-                df = pd.DataFrame(columns=['Date', 'oil_inventory'])
-                last_date = datetime(2000, 1, 1)
             
-            if datetime.now() - last_date > timedelta(days=7):
-                self.download_oil_inventory(start_date=(last_date + timedelta(days=1)).strftime('%Y-%m-%d'))
+            data = response.json()['response']['data']
+            df = pd.DataFrame(data)
+            df['period'] = pd.to_datetime(df['period'])
+            df = df.rename(columns={'value': 'oil_inventory'})
+            return df[['period', 'oil_inventory']].set_index('period')
         except Exception as e:
-            self.logger.error(f"Error updating oil inventory: {str(e)}")
+            logger.error(f"Error downloading oil inventory: {str(e)}")
+            return pd.DataFrame()
     
     def get_oil_inventory(self):
         """Get oil inventory data"""
@@ -202,3 +193,16 @@ class MacroDataManager:
         """Get geopolitical risk data"""
         df = pd.read_csv(f"{self.data_dir}/geopolitical_risk.csv", parse_dates=['Date'])
         return df.set_index('Date')['gpr_index']
+    def download_vix_data(self):
+        """Stiahni historické dáta VIX (Index volatility)"""
+        try:
+            # URL pre VIX dáta z FRED
+            url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS"
+            df = pd.read_csv(url, parse_dates=['DATE'])
+            df = df.rename(columns={'VIXCLS': 'vix'})
+            return df.set_index('DATE')
+        except Exception as e:
+            logger.error(f"Error downloading VIX data: {str(e)}")
+            return pd.DataFrame()
+    
+    

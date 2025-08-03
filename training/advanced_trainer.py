@@ -1,4 +1,4 @@
-# training/advanced_models.py
+# training/advanced_trainer.py
 import sys
 import os
 import pandas as pd
@@ -38,11 +38,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 class AdvancedModelTrainer:
-    def __init__(self, symbol, model_type, data_path, timeframe='5min'):
+    def __init__(self, symbol, model_type, timeframe='5min'):  # Odstránený data_path
         self.symbol = symbol
         self.model_type = model_type
         self.timeframe = timeframe
         
+        # Výpočet cesty k dátam
+        data_path = f'training_data/{symbol}_with_sentiment.csv'
         # Convert relative path to absolute
         if not os.path.isabs(data_path):
             data_path = os.path.join(project_root, data_path)
@@ -482,11 +484,17 @@ class AdvancedModelTrainer:
         )
         metrics = dict(zip(self.model.metrics_names, results))
         
-        f1 = 2 * (metrics['precision'] * metrics['recall']) / (metrics['precision'] + metrics['recall'] + 1e-7)
+        # Calculate F1-score safely
+        precision = metrics.get('precision', 0)
+        recall = metrics.get('recall', 0)
+        if precision + recall > 0:
+            f1 = 2 * (precision * recall) / (precision + recall)
+        else:
+            f1 = 0
         
         logger.info("\nTest Evaluation:")
         logger.info(f"Loss: {metrics['loss']:.4f}, Accuracy: {metrics['accuracy']:.4f}")
-        logger.info(f"Precision: {metrics['precision']:.4f}, Recall: {metrics['recall']:.4f}, F1-Score: {f1:.4f}")
+        logger.info(f"Precision: {precision:.4f}, Recall: {recall:.4f}, F1-Score: {f1:.4f}")
         
         # Classification report
         y_pred = self.model.predict(
@@ -571,13 +579,47 @@ class AdvancedModelTrainer:
 
 # Example usage
 if __name__ == "__main__":
-    # Initialize trainer
-    trainer = AdvancedModelTrainer(
-        symbol="BTCUSD_ecn",
-        model_type="hybrid",
-        data_path="data/BTCUSD_ecn_5min.csv",
-        timeframe="5min"
-    )
+    # Zoznam symbolov a modelov na trénovanie
+    symbols = [
+        'BTCUSD_ecn', 
+        'DAX_ecn', 
+        'EURUSD_ecn', 
+        'NSDQ_ecn', 
+        'SP_ecn', 
+        'USOIL.fut', 
+        'XAUUSD_ecn'
+    ]
     
-    # Train model
-    trainer.train()
+    # Typy modelov (hybrid alebo transfer)
+    model_types = ['hybrid']
+    
+    # Časové rámce
+    timeframes = ['5min']
+    
+    # Pre každú kombináciu symbolu, typu modelu a časového rámca
+    for symbol in symbols:
+        for model_type in model_types:
+            for timeframe in timeframes:
+                try:
+                    logger.info(f"\n{'='*80}")
+                    logger.info(f"Starting training for {symbol} ({model_type}, {timeframe})")
+                    logger.info(f"{'='*80}")
+                    
+                    # Initialize trainer
+                    trainer = AdvancedModelTrainer(
+                        symbol=symbol,
+                        model_type=model_type,
+                        timeframe=timeframe
+                    )
+                    
+                    # Train model - TOTO BOLO CHÝBAJÚCE
+                    trainer.train()
+                    
+                    logger.info(f"\n{'='*80}")
+                    logger.info(f"Completed training for {symbol} ({model_type}, {timeframe})")
+                    logger.info(f"{'='*80}\n")
+                    
+                except Exception as e:
+                    logger.error(f"Failed to train model for {symbol}: {str(e)}")
+                    import traceback
+                    logger.error(traceback.format_exc())

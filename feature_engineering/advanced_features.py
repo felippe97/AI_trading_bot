@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import holidays
 import requests
 import os
+import talib
 from .macro_data_manager import MacroDataManager
 from sentiment.sentiment_downloader import SentimentDownloader  # Import sentiment downloadera
 
@@ -80,40 +81,50 @@ class AdvancedFeatureEngineer:
         return df
     
     def add_technical_indicators(self, df):
-        """Add advanced technical indicators"""
-        # RSI (Relative Strength Index)
-        delta = df['close'].diff()
-        gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-        loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-        rs = gain / loss
-        df['rsi'] = 100 - (100 / (1 + rs))
+        """Pridaj technické indikátory do DataFrame"""
+        # Opravený výpočet ATR
+        high = df['high']
+        low = df['low']
+        close = df['close']
         
-        # MACD (Moving Average Convergence Divergence)
-        ema12 = df['close'].ewm(span=12, adjust=False).mean()
-        ema26 = df['close'].ewm(span=26, adjust=False).mean()
-        df['macd'] = ema12 - ema26
-        df['macd_signal'] = df['macd'].ewm(span=9, adjust=False).mean()
+        # Výpočet True Range
+        tr1 = high - low
+        tr2 = (high - close.shift(1)).abs()
+        tr3 = (low - close.shift(1)).abs()
+        true_range = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
         
-        # Bollinger Bands
-        sma20 = df['close'].rolling(window=20).mean()
-        std20 = df['close'].rolling(window=20).std()
-        df['bollinger_upper'] = sma20 + (std20 * 2)
-        df['bollinger_lower'] = sma20 - (std20 * 2)
-        df['bollinger_percent'] = (df['close'] - df['bollinger_lower']) / (df['bollinger_upper'] - df['bollinger_lower'])
-        
-        # ATR (Average True Range)
-        high_low = df['high'] - df['low']
-        high_close = np.abs(df['high'] - df['close'].shift())
-        low_close = np.abs(df['low'] - df['close'].shift())
-        true_range = np.max(np.array([high_low, high_close, low_close]), axis=0)
+        # Výpočet ATR
         df['atr'] = true_range.rolling(window=14).mean()
         
-        # Volume-based features
-        df['volume_ma'] = df['volume'].rolling(window=20).mean()
-        df['volume_roc'] = df['volume'].pct_change(periods=5)
+        # Výpočet RSI
+        df['rsi'] = talib.RSI(close, timeperiod=14)
         
-        # Price volatility
-        df['volatility'] = df['close'].rolling(window=20).std() * np.sqrt(20)
+        # Výpočet MACD
+        macd, macd_signal, _ = talib.MACD(close, fastperiod=12, slowperiod=26, signalperiod=9)
+        df['macd'] = macd
+        df['macd_signal'] = macd_signal
+        df['macd_hist'] = macd - macd_signal
+        
+        # Výpočet Stochastic Oscillator
+        slowk, slowd = talib.STOCH(high, low, close, fastk_period=14, slowk_period=3, slowd_period=3)
+        df['stoch_k'] = slowk
+        df['stoch_d'] = slowd
+        
+        # Výpočet Bollinger Bands
+        upper, middle, lower = talib.BBANDS(close, timeperiod=20)
+        df['bb_upper'] = upper
+        df['bb_middle'] = middle
+        df['bb_lower'] = lower
+        df['bb_percent'] = (close - lower) / (upper - lower)
+        
+        # Výpočet ADX
+        df['adx'] = talib.ADX(high, low, close, timeperiod=14)
+        
+        # Výpočet OBV
+        df['obv'] = talib.OBV(close, df['volume'])
+        
+        # Výpočet volatility
+        df['volatility'] = close.rolling(window=20).std() / close.rolling(window=20).mean()
         
         return df
     
